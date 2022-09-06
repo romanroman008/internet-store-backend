@@ -38,7 +38,7 @@ public class User {
     private String city;
     private String country;
     private String phone;
-    @Email(message = "jebac")
+    @Email(message = "not an email")
     private String email;
 //    @OneToMany(cascade = CascadeType.ALL,mappedBy="user")
 //    private List<Order> orderList;
