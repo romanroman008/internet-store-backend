@@ -28,7 +28,7 @@ public class OrderService {
 //    public OrderDto addOrder(OrderDto orderDto){
 //        orderDto.getProductList()
 //                .forEach(this::decrease);
-////        User user=userRepository.getByLogin("JarekSzparek").get();
+////        User user=userRepository.getByLogin("JarekArek").get();
 //        Order order=orderMapper.mapDtoToOrder(orderDto);
 ////        order.setUser(user);
 ////        user.addOrder(order);
