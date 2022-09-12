@@ -24,6 +24,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserDetailsRepository userDetailsRepository;
+    private final PasswordEncoder passwordEncoder;
 //    private final PasswordEncoder passwordEncoder;
 //    private final Validator validator;
 
@@ -44,8 +45,8 @@ public class UserService {
             userDetails.setCountry(regi.getCountry());
             userDetails.setPhone(regi.getPhone());
             userDetails.setEmail(regi.getEmail());
-            //String passwordHash = passwordEncoder.encode(regi.getPassword());
-            user.setPassword(regi.getPassword());
+            user.setPassword(passwordEncoder.encode(regi.getPassword()));
+
             user.setUserDetails(userDetails);
 
             userDetailsRepository.save(userDetails);
@@ -59,8 +60,9 @@ public class UserService {
 //    public boolean updateUser(UserRegistrationDto updated){
 //    }
 
-    public boolean deleteUser(String username){
-       return userRepository.deleteByUsername(username);
+    @Transactional
+    public void deleteUser(String username){
+       userRepository.deleteByUsername(username);
     }
 
     public List<User> getAll(){

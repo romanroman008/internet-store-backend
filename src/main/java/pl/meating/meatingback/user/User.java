@@ -22,9 +22,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
-
     private String password;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private UserDetails userDetails;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="authority_id")

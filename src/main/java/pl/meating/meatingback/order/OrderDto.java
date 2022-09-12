@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderDto {
+public class OrderDto{
     private Date date;
     private List<ProductDto> productList;
     //private String ownerLogin;

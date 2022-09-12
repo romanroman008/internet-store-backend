@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.meating.meatingback.order.OrderDto;
 import pl.meating.meatingback.order.OrderService;
+import pl.meating.meatingback.order.OrderWrapper;
 import pl.meating.meatingback.user.userdetails.UserDetailsDto;
 import pl.meating.meatingback.user.userdetails.UserDetailsService;
 
@@ -38,8 +39,9 @@ public class OrderController {
     }
 
     @PostMapping("addorder")
-    public ResponseEntity<OrderDto> addOrder(@RequestBody OrderDto orderDto, @RequestBody UserDetailsDto userDetailsDto){
-        OrderDto toReturn=orderService.addOrder(orderDto,userDetailsDto);
+    public ResponseEntity<OrderDto> addOrder(@RequestBody OrderWrapper orderWrapper){
+
+        OrderDto toReturn=orderService.addOrder(orderWrapper.orderDto, orderWrapper.userDetailsDto);
         return new ResponseEntity<OrderDto>(toReturn, HttpStatus.CREATED);
     }
 
