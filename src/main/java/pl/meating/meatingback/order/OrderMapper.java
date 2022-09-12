@@ -27,7 +27,7 @@ public class OrderMapper {
                 .collect(Collectors.toList());
         dto.setProductList(productList);
        // dto.setOwnerLogin(order.userLogin());
-        dto.setOwnerEmail(order.getOwnUserDetails().getEmail());
+        dto.setOwnerEmail(order.getUserDetails().getEmail());
         return dto;
     }
     public Order mapDtoToOrder(OrderDto dto){

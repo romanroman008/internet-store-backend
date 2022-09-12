@@ -32,8 +32,8 @@ public class Order {
 //        return user.getUsername();
 //    }
 
-    @OneToOne(mappedBy="order")
-    private UserDetails ownUserDetails;
+    @OneToOne(cascade = CascadeType.ALL)
+    private UserDetails userDetails;
 
 
     public void addProduct(Product product){

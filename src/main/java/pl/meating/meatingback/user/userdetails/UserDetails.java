@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.meating.meatingback.order.Order;
+import pl.meating.meatingback.user.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -33,7 +34,8 @@ public class UserDetails {
     private String phone;
     @Email(message="to nie email")
     private String email;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="order_table")
-   private Order order;
+    @OneToOne(mappedBy = "userDetails")
+    private User user;
+    @OneToOne(mappedBy = "userDetails")
+    private Order order;
 }

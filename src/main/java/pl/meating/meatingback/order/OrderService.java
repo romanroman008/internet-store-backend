@@ -6,10 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.meating.meatingback.product.Product;
 import pl.meating.meatingback.product.ProductDto;
 import pl.meating.meatingback.product.ProductRepository;
-import pl.meating.meatingback.user.User;
 import pl.meating.meatingback.user.UserRepository;
+import pl.meating.meatingback.user.userdetails.UserDetails;
 import pl.meating.meatingback.user.userdetails.UserDetailsDto;
-import pl.meating.meatingback.user.userdetails.UserDetailsRepository;
 import pl.meating.meatingback.user.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -45,6 +44,18 @@ public class OrderService {
         orderRepository.save(order);
         return orderDto;
     }
+
+    @Transactional
+    public OrderDto addUserOrder(OrderDto orderDto, String username){
+        orderDto.getProductList()
+                .forEach(this::decrease);
+        UserDetails userDetails=userRepository.findByUsername(username).get().getUserDetails();
+        Order order=orderMapper.mapDtoToOrder(orderDto);
+        order.setUserDetails(userDetails);
+        orderRepository.save(order);
+        return orderDto;
+    }
+
 
 
     public OrderDto checkOrder(OrderDto orderDto){

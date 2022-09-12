@@ -12,13 +12,13 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("registration")
+@RequestMapping("/registration")
 @RequiredArgsConstructor
 public class RegistrationController {
 
     private final UserService userService;
 
-    @PostMapping("register")
+    @PostMapping("/register")
     public ResponseEntity<User> register(@Valid @RequestBody RegisterRequest userRegistrationDto) throws Exception {
         User savedUser = userService.register(userRegistrationDto);
         if(savedUser == null){

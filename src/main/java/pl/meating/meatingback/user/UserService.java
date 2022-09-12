@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.validation.Validator;
 import pl.meating.meatingback.user.dto.RegisterRequest;
+import pl.meating.meatingback.user.userdetails.UserDetails;
+import pl.meating.meatingback.user.userdetails.UserDetailsRepository;
 
 
 import java.util.List;
@@ -19,40 +21,34 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
 
-//    private static final String USER_ROLE="USER";
-//    private static final String ADMIN_AUTHORITY="ROLE_ADMIN";
-    private final UserRoleRepository userRoleRepository;
+
     private final UserRepository userRepository;
+    private final UserDetailsRepository userDetailsRepository;
 //    private final PasswordEncoder passwordEncoder;
 //    private final Validator validator;
 
 
     @Transactional
     public User register(RegisterRequest regi)  {
-        if(userRepository.getByEmail(regi.getEmail()).isEmpty()&&userRepository.findByUsername(regi.getLogin()).isEmpty()) {
+        if(userRepository.findByUsername(regi.getLogin()).isEmpty()&&userRepository.findByUsername(regi.getLogin()).isEmpty()) {
             User user = new User();
+            UserDetails userDetails=new UserDetails();
             user.setUsername(regi.getLogin());
-            user.setFirstName(regi.getFirstName());
-            user.setLastName(regi.getLastName());
-            user.setBirthday(regi.getBirthday());
-            user.setStreet(regi.getStreet());
-            user.setStreetNumber((int)regi.getStreetNumber());
-            user.setFlatNumber((int)regi.getFlatNumber());
-            user.setCity(regi.getCity());
-            user.setCountry(regi.getCountry());
-            user.setPhone(regi.getPhone());
-            user.setEmail(regi.getEmail());
+            userDetails.setFirstName(regi.getFirstName());
+            userDetails.setLastName(regi.getLastName());
+            userDetails.setBirthday(regi.getBirthday());
+            userDetails.setStreet(regi.getStreet());
+            userDetails.setStreetNumber((int)regi.getStreetNumber());
+            userDetails.setFlatNumber((int)regi.getFlatNumber());
+            userDetails.setCity(regi.getCity());
+            userDetails.setCountry(regi.getCountry());
+            userDetails.setPhone(regi.getPhone());
+            userDetails.setEmail(regi.getEmail());
             //String passwordHash = passwordEncoder.encode(regi.getPassword());
             user.setPassword(regi.getPassword());
-            Optional<UserRole> userRole=userRoleRepository.findByName(ERole.ROLE_USER);
-            userRole.ifPresentOrElse(
-                    role->user.getRoles().add(role),
-                    ()->{
-                        throw new NoSuchElementException();
-                    }
-            );
+            user.setUserDetails(userDetails);
 
-
+            userDetailsRepository.save(userDetails);
            return userRepository.save(user);
 
         }
@@ -63,8 +59,8 @@ public class UserService {
 //    public boolean updateUser(UserRegistrationDto updated){
 //    }
 
-    public boolean deleteUser(String email){
-       return userRepository.deleteByEmail(email);
+    public boolean deleteUser(String username){
+       return userRepository.deleteByUsername(username);
     }
 
     public List<User> getAll(){

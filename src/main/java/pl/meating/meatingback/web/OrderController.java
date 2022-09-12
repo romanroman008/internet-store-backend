@@ -31,9 +31,14 @@ public class OrderController {
         OrderDto toReturn=orderService.checkOrder(orderDto);
         return new ResponseEntity<OrderDto>(toReturn, HttpStatus.CREATED);
     }
+    @PostMapping("addorderuser")
+    public ResponseEntity<OrderDto> addRegisterUserOrder(@RequestBody OrderDto orderDto,String username){
+        OrderDto toReturn=orderService.addUserOrder(orderDto,username);
+        return new ResponseEntity<OrderDto>(toReturn, HttpStatus.CREATED);
+    }
 
     @PostMapping("addorder")
-    public ResponseEntity<OrderDto> sendOrder(@RequestBody OrderDto orderDto, @RequestBody UserDetailsDto userDetailsDto){
+    public ResponseEntity<OrderDto> addOrder(@RequestBody OrderDto orderDto, @RequestBody UserDetailsDto userDetailsDto){
         OrderDto toReturn=orderService.addOrder(orderDto,userDetailsDto);
         return new ResponseEntity<OrderDto>(toReturn, HttpStatus.CREATED);
     }
