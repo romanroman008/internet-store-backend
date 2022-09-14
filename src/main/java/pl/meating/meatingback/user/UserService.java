@@ -49,7 +49,7 @@ public class UserService {
 
             user.setUserDetails(userDetails);
 
-            userDetailsRepository.save(userDetails);
+            //userDetailsRepository.save(userDetails);
            return userRepository.save(user);
 
         }

@@ -34,7 +34,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
                 new UsernameNotFoundException("User uciekł albo go zmyśliłeś"));
         if(passwordEncoder.matches(password,user.getPassword())){
             List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority(user.getAuthority().getAuthority()));
+           // authorities.add(new SimpleGrantedAuthority(user.getAuthority().getAuthority()));
             return new UsernamePasswordAuthenticationToken(username,password,authorities);
         }else{
             throw new BadCredentialsException("Credentialsi to inwalidzi");

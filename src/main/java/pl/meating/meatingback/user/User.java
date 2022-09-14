@@ -3,6 +3,7 @@ package pl.meating.meatingback.user;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,11 +23,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
+    @JsonIgnore
     private String password;
     @OneToOne(cascade = CascadeType.ALL)
     private UserDetails userDetails;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="authority_id")
-    private Authority authority;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name="authority_id")
+//    private Authority authority;
 
 }

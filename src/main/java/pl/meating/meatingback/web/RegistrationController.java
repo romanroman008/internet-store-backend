@@ -40,7 +40,7 @@ public class RegistrationController {
         Authentication authentication;
         try{
             authentication=authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginRequest.getPassword(),loginRequest.getPassword()));
+                    new UsernamePasswordAuthenticationToken(loginRequest.getLogin(),loginRequest.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }catch(BadCredentialsException e){
             throw new Exception("Nieprawidłowe dane");
