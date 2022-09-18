@@ -12,12 +12,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import pl.meating.meatingback.user.User;
 import pl.meating.meatingback.user.UserService;
+import pl.meating.meatingback.user.dto.AuthenticationBean;
 import pl.meating.meatingback.user.dto.LoginRequest;
 import pl.meating.meatingback.user.dto.RegisterRequest;
 
 import javax.validation.Valid;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/registration")
 @RequiredArgsConstructor
@@ -25,6 +27,11 @@ public class RegistrationController {
 
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
+
+    @GetMapping(path="/basicauth")
+    public String test(){
+        return "You are authenticated";
+    }
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@Valid @RequestBody RegisterRequest userRegistrationDto) throws Exception {

@@ -9,6 +9,7 @@ import pl.meating.meatingback.product.ProductService;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("product")
 @RequiredArgsConstructor

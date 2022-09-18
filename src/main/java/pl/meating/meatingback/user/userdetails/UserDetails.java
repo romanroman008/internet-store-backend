@@ -32,7 +32,7 @@ public class UserDetails {
     private String city;
     private String country;
     private String phone;
-    @Email(message="to nie email")
+    //@Email(message="to nie email")
     private String email;
     @OneToOne(mappedBy = "userDetails")
     private User user;

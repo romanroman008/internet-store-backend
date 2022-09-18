@@ -39,9 +39,9 @@ public class OrderController {
     }
 
     @PostMapping("addorder")
-    public ResponseEntity<OrderDto> addOrder(@RequestBody OrderWrapper orderWrapper){
+    public ResponseEntity<OrderDto> addOrder(@RequestBody OrderDto orderDto){
 
-        OrderDto toReturn=orderService.addOrder(orderWrapper.orderDto, orderWrapper.userDetailsDto);
+        OrderDto toReturn=orderService.addOrder(orderDto);
         return new ResponseEntity<OrderDto>(toReturn, HttpStatus.CREATED);
     }
 

@@ -36,11 +36,11 @@ public class OrderService {
 //    }
 
     @Transactional
-    public OrderDto addOrder(OrderDto orderDto, UserDetailsDto userDetailsDto){
+    public OrderDto addOrder(OrderDto orderDto){
         orderDto.getProductList()
                 .forEach(this::decrease);
         Order order=orderMapper.mapDtoToOrder(orderDto);
-        userDetailsService.saveUserDetails(userDetailsDto);
+        //userDetailsService.saveUserDetails(userDetailsDto);
         orderRepository.save(order);
         return orderDto;
     }

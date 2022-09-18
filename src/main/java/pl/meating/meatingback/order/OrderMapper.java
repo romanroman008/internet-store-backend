@@ -1,12 +1,14 @@
 package pl.meating.meatingback.order;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
 import org.springframework.stereotype.Service;
 import pl.meating.meatingback.product.Product;
 import pl.meating.meatingback.product.ProductDto;
 import pl.meating.meatingback.product.ProductMapper;
 import pl.meating.meatingback.product.ProductRepository;
 import pl.meating.meatingback.user.UserRepository;
+import pl.meating.meatingback.user.userdetails.UserDetailsRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 public class OrderMapper {
 
     private final UserRepository userRepository;
+    private final UserDetailsRepository userDetailsRepository;
     private final ProductRepository productRepository;
 
     public OrderDto mapOrderToDto(Order order){
@@ -39,6 +42,7 @@ public class OrderMapper {
                 .collect(Collectors.toList());
 
         order.setProductList(productList);
+        order.setUserDetails(userDetailsRepository.getByEmail(dto.getOwnerEmail()).get());
         //order.setUser(userRepository.findByUsername(dto.getOwnerLogin()).get());
         return order;
     }
