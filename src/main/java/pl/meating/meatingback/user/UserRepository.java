@@ -6,9 +6,9 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User,Long> {
+public interface UserRepository extends JpaRepository<UserDao,Long> {
 
     void deleteByUsername(String username);
-    Optional<User> findByUsername(String username);
+    Optional<UserDao> findByUsername(String username);
     boolean existsByUsername(String username);
 }

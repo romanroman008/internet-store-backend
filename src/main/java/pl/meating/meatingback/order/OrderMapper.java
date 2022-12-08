@@ -1,14 +1,13 @@
 package pl.meating.meatingback.order;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
 import org.springframework.stereotype.Service;
 import pl.meating.meatingback.product.Product;
 import pl.meating.meatingback.product.ProductDto;
 import pl.meating.meatingback.product.ProductMapper;
 import pl.meating.meatingback.product.ProductRepository;
 import pl.meating.meatingback.user.UserRepository;
-import pl.meating.meatingback.user.userdetails.UserDetailsRepository;
+import pl.meating.meatingback.user.userdetails.UserInformationRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 public class OrderMapper {
 
     private final UserRepository userRepository;
-    private final UserDetailsRepository userDetailsRepository;
+    private final UserInformationRepository userInformationRepository;
     private final ProductRepository productRepository;
 
     public OrderDto mapOrderToDto(Order order){
@@ -30,7 +29,7 @@ public class OrderMapper {
                 .collect(Collectors.toList());
         dto.setProductList(productList);
        // dto.setOwnerLogin(order.userLogin());
-        dto.setOwnerEmail(order.getUserDetails().getEmail());
+        dto.setOwnerEmail(order.getUserInformation().getEmail());
         return dto;
     }
     public Order mapDtoToOrder(OrderDto dto){
@@ -42,8 +41,8 @@ public class OrderMapper {
                 .collect(Collectors.toList());
 
         order.setProductList(productList);
-        order.setUserDetails(userDetailsRepository.getByEmail(dto.getOwnerEmail()).get());
-        //order.setUser(userRepository.findByUsername(dto.getOwnerLogin()).get());
+        order.setUserInformation(userInformationRepository.getByEmail(dto.getOwnerEmail()).get());
+        //order.setUserDao(userRepository.findByUsername(dto.getOwnerLogin()).get());
         return order;
     }
 }

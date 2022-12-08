@@ -3,6 +3,7 @@ package pl.meating.meatingback.user.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pl.meating.meatingback.user.Authority;
 import pl.meating.meatingback.validators.TotalNumber;
 
 import javax.validation.constraints.*;
@@ -21,16 +22,17 @@ public class RegisterRequest {
     @Past
     private Date birthday;
     private String street;
-    @Positive
-    @TotalNumber
+   // @Positive
+   // @TotalNumber
     private float streetNumber;
-    @Positive
-    @TotalNumber
+   // @Positive
+   // @TotalNumber
     private float flatNumber;
     private String city;
     private String country;
     private String phone;
     @Email
     private String email;
+   // private Authority authority;
 
 }

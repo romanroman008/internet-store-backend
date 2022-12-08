@@ -27,7 +27,7 @@ public class ProductController {
         return productService.getAll();
     }
 
-    @PostMapping("delete")
+    @DeleteMapping("delete")
     public boolean deleteProduct(String name){
         return productService.deleteProduct(name);
     }

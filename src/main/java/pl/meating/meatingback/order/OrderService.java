@@ -7,9 +7,8 @@ import pl.meating.meatingback.product.Product;
 import pl.meating.meatingback.product.ProductDto;
 import pl.meating.meatingback.product.ProductRepository;
 import pl.meating.meatingback.user.UserRepository;
-import pl.meating.meatingback.user.userdetails.UserDetails;
-import pl.meating.meatingback.user.userdetails.UserDetailsDto;
-import pl.meating.meatingback.user.userdetails.UserDetailsService;
+import pl.meating.meatingback.user.userdetails.UserInformation;
+import pl.meating.meatingback.user.userdetails.UserInformationService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,15 +20,15 @@ public class OrderService {
     private final ProductRepository productRepository;
     private final OrderMapper orderMapper;
     private final UserRepository userRepository;
-    private final UserDetailsService userDetailsService;
+    private final UserInformationService userDetailsService;
 //
 //    @Transactional
 //    public OrderDto addOrder(OrderDto orderDto){
 //        orderDto.getProductList()
 //                .forEach(this::decrease);
-////        User user=userRepository.getByLogin("JarekArek").get();
+////        UserDao user=userRepository.getByLogin("JarekArek").get();
 //        Order order=orderMapper.mapDtoToOrder(orderDto);
-////        order.setUser(user);
+////        order.setUserDao(user);
 ////        user.addOrder(order);
 //        orderRepository.save(order);
 //        return orderDto;
@@ -40,7 +39,7 @@ public class OrderService {
         orderDto.getProductList()
                 .forEach(this::decrease);
         Order order=orderMapper.mapDtoToOrder(orderDto);
-        //userDetailsService.saveUserDetails(userDetailsDto);
+        //userDetailsService.saveUserDetails(userInformationDto);
         orderRepository.save(order);
         return orderDto;
     }
@@ -49,9 +48,9 @@ public class OrderService {
     public OrderDto addUserOrder(OrderDto orderDto, String username){
         orderDto.getProductList()
                 .forEach(this::decrease);
-        UserDetails userDetails=userRepository.findByUsername(username).get().getUserDetails();
+        UserInformation userInformation =userRepository.findByUsername(username).get().getUserInformation();
         Order order=orderMapper.mapDtoToOrder(orderDto);
-        order.setUserDetails(userDetails);
+        order.setUserInformation(userInformation);
         orderRepository.save(order);
         return orderDto;
     }

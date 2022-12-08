@@ -1,8 +1,8 @@
 package pl.meating.meatingback.order;
 
-import pl.meating.meatingback.user.userdetails.UserDetailsDto;
+import pl.meating.meatingback.user.userdetails.UserInformationDto;
 
 public class OrderWrapper {
    public OrderDto orderDto;
-   public UserDetailsDto userDetailsDto;
+   public UserInformationDto userInformationDto;
 }

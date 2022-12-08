@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import pl.meating.meatingback.user.userdetails.UserDetails;
+import pl.meating.meatingback.user.userdetails.UserInformation;
 
 import javax.persistence.*;
 
@@ -18,7 +18,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class UserDao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,7 +26,7 @@ public class User {
     @JsonIgnore
     private String password;
     @OneToOne(cascade = CascadeType.ALL)
-    private UserDetails userDetails;
+    private UserInformation userInformation;
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @JoinColumn(name="authority_id")
 //    private Authority authority;

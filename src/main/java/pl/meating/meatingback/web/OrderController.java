@@ -7,9 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.meating.meatingback.order.OrderDto;
 import pl.meating.meatingback.order.OrderService;
-import pl.meating.meatingback.order.OrderWrapper;
-import pl.meating.meatingback.user.userdetails.UserDetailsDto;
-import pl.meating.meatingback.user.userdetails.UserDetailsService;
+import pl.meating.meatingback.user.userdetails.UserInformationDto;
+import pl.meating.meatingback.user.userdetails.UserInformationService;
 
 import java.util.List;
 
@@ -19,12 +18,12 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
-    private final UserDetailsService userDetailsService;
+    private final UserInformationService userDetailsService;
 
     @PostMapping("adddetails")
-    public ResponseEntity<UserDetailsDto> sendDetails(@RequestBody UserDetailsDto userDetailsDto){
-        UserDetailsDto toReturn=userDetailsService.saveUserDetails(userDetailsDto);
-        return new ResponseEntity<UserDetailsDto>(toReturn, HttpStatus.CREATED);
+    public ResponseEntity<UserInformationDto> sendDetails(@RequestBody UserInformationDto userInformationDto){
+        UserInformationDto toReturn=userDetailsService.saveUserDetails(userInformationDto);
+        return new ResponseEntity<UserInformationDto>(toReturn, HttpStatus.CREATED);
     }
 
     @PostMapping("check")

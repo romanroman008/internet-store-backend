@@ -6,10 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.meating.meatingback.order.Order;
-import pl.meating.meatingback.user.User;
+import pl.meating.meatingback.user.UserDao;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.Past;
 import java.util.Date;
 
@@ -18,7 +17,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDetails {
+public class UserInformation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,8 +33,8 @@ public class UserDetails {
     private String phone;
     //@Email(message="to nie email")
     private String email;
-    @OneToOne(mappedBy = "userDetails")
-    private User user;
-    @OneToOne(mappedBy = "userDetails")
+    @OneToOne(mappedBy = "userInformation")
+    private UserDao userDao;
+    @OneToOne(mappedBy = "userInformation")
     private Order order;
 }

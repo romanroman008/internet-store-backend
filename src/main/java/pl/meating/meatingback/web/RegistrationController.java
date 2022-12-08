@@ -1,7 +1,6 @@
 package pl.meating.meatingback.web;
 
 import lombok.RequiredArgsConstructor;
-import org.hibernate.dialect.HANARowStoreDialect;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,10 +8,10 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import pl.meating.meatingback.user.User;
+import pl.meating.meatingback.user.UserDao;
 import pl.meating.meatingback.user.UserService;
-import pl.meating.meatingback.user.dto.AuthenticationBean;
 import pl.meating.meatingback.user.dto.LoginRequest;
 import pl.meating.meatingback.user.dto.RegisterRequest;
 
@@ -34,25 +33,30 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@Valid @RequestBody RegisterRequest userRegistrationDto) throws Exception {
-        User savedUser = userService.register(userRegistrationDto);
-        if(savedUser == null){
+    @Transactional
+    public ResponseEntity<UserDao> register(@Valid @RequestBody RegisterRequest userRegistrationDto) throws Exception {
+        UserDao savedUserDao = userService.register(userRegistrationDto);
+        if(savedUserDao == null){
             return null;
         }
-    return new ResponseEntity<User>(savedUser, HttpStatus.CREATED);
+    return new ResponseEntity<UserDao>(savedUserDao, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<HttpStatus> login(@RequestBody LoginRequest loginRequest) throws Exception {
+    public ResponseEntity<Authentication> login(@Valid @RequestBody LoginRequest loginRequest) throws Exception {
         Authentication authentication;
+       // UserDao user;
         try{
             authentication=authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getLogin(),loginRequest.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            //user=userService.getUserDao(loginRequest.getLogin());
         }catch(BadCredentialsException e){
             throw new Exception("Nieprawidłowe dane");
+             //return new ResponseEntity<HttpStatus>(HttpStatus.NOT_ACCEPTABLE);
         }
-        return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+
+        return new ResponseEntity<Authentication>(authentication,HttpStatus.OK);
     }
 
     @PostMapping("delete")
@@ -61,11 +65,11 @@ public class RegistrationController {
     }
 
     @GetMapping("getall")
-    public List<User> getUsers(){
+    public List<UserDao> getUsers(){
         return userService.getAll();
     }
     @GetMapping("get")
-    public User getOne(){
+    public UserDao getOne(){
         return userService.getOne();
     }
 }

@@ -73,7 +73,7 @@
 //                    .body("chasd");
 //        }
 //
-//        User user=new User(registerRequest.getLogin(),
+//        UserDao user=new UserDao(registerRequest.getLogin(),
 //                encoder.encode(registerRequest.getPassword()),
 //                registerRequest.getFirstName(),
 //                registerRequest.getLastName(),
@@ -112,6 +112,6 @@
 //        user.setRoles(roles);
 //        userRepository.save(user);
 //
-//        return ResponseEntity.ok("User registred succesfully");
+//        return ResponseEntity.ok("UserDao registred succesfully");
 //    }
 //}

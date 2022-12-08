@@ -1,20 +1,16 @@
 package pl.meating.meatingback.user;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import org.springframework.validation.Validator;
 import pl.meating.meatingback.user.dto.RegisterRequest;
-import pl.meating.meatingback.user.userdetails.UserDetails;
-import pl.meating.meatingback.user.userdetails.UserDetailsRepository;
+import pl.meating.meatingback.user.userdetails.UserInformation;
+import pl.meating.meatingback.user.userdetails.UserInformationRepository;
 
 
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 
 @Service
@@ -23,34 +19,35 @@ public class UserService {
 
 
     private final UserRepository userRepository;
-    private final UserDetailsRepository userDetailsRepository;
+    private final UserInformationRepository userInformationRepository;
     private final PasswordEncoder passwordEncoder;
 //    private final PasswordEncoder passwordEncoder;
 //    private final Validator validator;
 
 
     @Transactional
-    public User register(RegisterRequest regi)  {
+    public UserDao register(RegisterRequest regi)  {
         if(userRepository.findByUsername(regi.getLogin()).isEmpty()&&userRepository.findByUsername(regi.getLogin()).isEmpty()) {
-            User user = new User();
-            UserDetails userDetails=new UserDetails();
-            user.setUsername(regi.getLogin());
-            userDetails.setFirstName(regi.getFirstName());
-            userDetails.setLastName(regi.getLastName());
-            userDetails.setBirthday(regi.getBirthday());
-            userDetails.setStreet(regi.getStreet());
-            userDetails.setStreetNumber((int)regi.getStreetNumber());
-            userDetails.setFlatNumber((int)regi.getFlatNumber());
-            userDetails.setCity(regi.getCity());
-            userDetails.setCountry(regi.getCountry());
-            userDetails.setPhone(regi.getPhone());
-            userDetails.setEmail(regi.getEmail());
-            user.setPassword(passwordEncoder.encode(regi.getPassword()));
+            UserDao userDao = new UserDao();
+            UserInformation userInformation =new UserInformation();
+            userDao.setUsername(regi.getLogin());
+            userInformation.setFirstName(regi.getFirstName());
+            userInformation.setLastName(regi.getLastName());
+            userInformation.setBirthday(regi.getBirthday());
+            userInformation.setStreet(regi.getStreet());
+            userInformation.setStreetNumber((int)regi.getStreetNumber());
+            userInformation.setFlatNumber((int)regi.getFlatNumber());
+            userInformation.setCity(regi.getCity());
+            userInformation.setCountry(regi.getCountry());
+            userInformation.setPhone(regi.getPhone());
+            userInformation.setEmail(regi.getEmail());
+            userDao.setPassword(passwordEncoder.encode(regi.getPassword()));
+            //userDao.setAuthority(regi.getAuthority());
 
-            user.setUserDetails(userDetails);
+            userDao.setUserInformation(userInformation);
 
-            //userDetailsRepository.save(userDetails);
-           return userRepository.save(user);
+            //userInformationRepository.save(userDetails);
+           return userRepository.save(userDao);
 
         }
         return null;
@@ -65,13 +62,19 @@ public class UserService {
        userRepository.deleteByUsername(username);
     }
 
-    public List<User> getAll(){
+    public List<UserDao> getAll(){
         return userRepository.findAll();
     }
 
-    public User getOne(){
+    public UserDao getOne(){
         if(userRepository.findByUsername("JarekSzparek").isPresent())
             return userRepository.findByUsername("JarekSzparek").get();
+        return null;
+    }
+
+    public UserDao getUser(String name){
+        if(userRepository.findByUsername(name).isPresent())
+            return userRepository.findByUsername(name).get();
         return null;
     }
 

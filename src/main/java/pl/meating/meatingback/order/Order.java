@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.meating.meatingback.product.Product;
-import pl.meating.meatingback.user.userdetails.UserDetails;
+import pl.meating.meatingback.user.userdetails.UserInformation;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -26,14 +26,14 @@ public class Order {
 //    @ManyToOne
 //    @JsonIgnore
 //    @JoinColumn(name="user_login")
-//    private User user;
+//    private UserDao user;
 //    @JsonProperty
 //    String userLogin(){
 //        return user.getUsername();
 //    }
 
     @OneToOne(cascade = CascadeType.ALL)
-    private UserDetails userDetails;
+    private UserInformation userInformation;
 
 
     public void addProduct(Product product){
