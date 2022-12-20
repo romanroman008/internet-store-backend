@@ -25,22 +25,6 @@ import pl.meating.meatingback.jwt.JwtUserDetailsService;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
-//    @Autowired
-//    private CustomUserDetailsService userDetailsService;
-
-//    @Autowired
-//    private CustomAuthenticationProvider authenticationProvider;
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.csrf().disable()
-//                .authorizeRequests()
-//                .antMatchers("/**").permitAll()
-//                .and()
-//                .httpBasic();
-//
-//    }
-
 
 
     @Autowired

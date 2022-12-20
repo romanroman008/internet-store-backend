@@ -22,11 +22,11 @@ public class RegisterRequest {
     @Past
     private Date birthday;
     private String street;
-   // @Positive
-   // @TotalNumber
+    @Positive
+    @TotalNumber
     private float streetNumber;
-   // @Positive
-   // @TotalNumber
+    @Positive
+    @TotalNumber
     private float flatNumber;
     private String city;
     private String country;

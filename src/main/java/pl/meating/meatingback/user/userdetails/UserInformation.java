@@ -9,8 +9,10 @@ import pl.meating.meatingback.order.Order;
 import pl.meating.meatingback.user.UserDao;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Past;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -31,10 +33,14 @@ public class UserInformation {
     private String city;
     private String country;
     private String phone;
-    //@Email(message="to nie email")
+    @Email
     private String email;
     @OneToOne(mappedBy = "userInformation")
     private UserDao userDao;
-    @OneToOne(mappedBy = "userInformation")
-    private Order order;
+    @OneToMany(mappedBy = "userInformation")
+    private List<Order> orderList;
+
+    public void addOrder(Order order){
+        this.orderList.add(order);
+    }
 }

@@ -14,9 +14,12 @@ import pl.meating.meatingback.user.UserDao;
 import pl.meating.meatingback.user.UserRepository;
 import pl.meating.meatingback.user.dto.RegisterRequest;
 import pl.meating.meatingback.user.userdetails.UserInformation;
+import pl.meating.meatingback.user.userdetails.UserInformationDto;
+import pl.meating.meatingback.user.userdetails.UserInformationRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
@@ -24,17 +27,21 @@ public class JwtUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+    private UserInformationRepository userInformationRepository;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-
+        List<UserDao> list=userRepository.findByUsername(username);
         if(userRepository.findByUsername(username).isEmpty())
             throw new UsernameNotFoundException("User not found with username: " + username);
 
-        UserDao userDao = userRepository.findByUsername(username).get();
+
+        UserDao userDao = userRepository.findByUsername(username).get(0);
         return new User(userDao.getUsername(), userDao.getPassword(), new ArrayList<>()) {
         };
 
@@ -57,15 +64,15 @@ public class JwtUserDetailsService implements UserDetailsService {
             userInformation.setPhone(regi.getPhone());
             userInformation.setEmail(regi.getEmail());
             userDao.setPassword(passwordEncoder.encode(regi.getPassword()));
-            //userDao.setAuthority(regi.getAuthority());
 
             userDao.setUserInformation(userInformation);
 
-            //userInformationRepository.save(userDetails);
+
             return userRepository.save(userDao);
         }
-        return null;
-
-
+       throw new IllegalArgumentException("Użytkownik już istnieje");
     }
+
+
+
 }

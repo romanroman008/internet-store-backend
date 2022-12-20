@@ -15,6 +15,9 @@ import java.util.List;
 public class OrderDto{
     private Date date;
     private List<ProductDto> productList;
-    //private String ownerLogin;
-    private String ownerEmail;
+    private String jwt;
+
+
+
+
 }

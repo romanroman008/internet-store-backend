@@ -1,15 +1,20 @@
 package pl.meating.meatingback.order;
 
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Or;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.meating.meatingback.jwt.JwtTokenUtil;
 import pl.meating.meatingback.product.Product;
 import pl.meating.meatingback.product.ProductDto;
 import pl.meating.meatingback.product.ProductRepository;
 import pl.meating.meatingback.user.UserRepository;
 import pl.meating.meatingback.user.userdetails.UserInformation;
+import pl.meating.meatingback.user.userdetails.UserInformationRepository;
 import pl.meating.meatingback.user.userdetails.UserInformationService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,19 +25,11 @@ public class OrderService {
     private final ProductRepository productRepository;
     private final OrderMapper orderMapper;
     private final UserRepository userRepository;
+    private final UserInformationRepository userInformationRepository;
+    private final OrderedProductRepository orderedProductRepository;
     private final UserInformationService userDetailsService;
-//
-//    @Transactional
-//    public OrderDto addOrder(OrderDto orderDto){
-//        orderDto.getProductList()
-//                .forEach(this::decrease);
-////        UserDao user=userRepository.getByLogin("JarekArek").get();
-//        Order order=orderMapper.mapDtoToOrder(orderDto);
-////        order.setUserDao(user);
-////        user.addOrder(order);
-//        orderRepository.save(order);
-//        return orderDto;
-//    }
+
+
 
     @Transactional
     public OrderDto addOrder(OrderDto orderDto){
@@ -45,20 +42,22 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderDto addUserOrder(OrderDto orderDto, String username){
-        orderDto.getProductList()
+    public OrderDto addOrderFromUnregisteredUser(UnregisteredUserOrder orderAndUser){
+        orderAndUser.getProductList()
                 .forEach(this::decrease);
-        UserInformation userInformation =userRepository.findByUsername(username).get().getUserInformation();
+        OrderDto orderDto=orderMapper.getOrder(orderAndUser);
         Order order=orderMapper.mapDtoToOrder(orderDto);
-        order.setUserInformation(userInformation);
+
+        order.setUserInformation(orderMapper.getUserInformation(orderAndUser));
+
         orderRepository.save(order);
-        return orderDto;
+        return checkOrder(orderDto);
     }
 
 
 
     public OrderDto checkOrder(OrderDto orderDto){
-        orderDto.getProductList()
+         orderDto.getProductList()
                 .forEach(this::check);
         return orderDto;
     }
@@ -87,6 +86,7 @@ public class OrderService {
             product.setAmount(0);
         }
         productRepository.save(product);
+        //orderedProductRepository.save()
         return dto;
     }
 

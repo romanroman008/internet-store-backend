@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.meating.meatingback.order.OrderDto;
 import pl.meating.meatingback.order.OrderService;
+import pl.meating.meatingback.order.UnregisteredUserOrder;
 import pl.meating.meatingback.user.userdetails.UserInformationDto;
 import pl.meating.meatingback.user.userdetails.UserInformationService;
 
@@ -15,10 +16,13 @@ import java.util.List;
 @RestController
 @RequestMapping("order")
 @RequiredArgsConstructor
+@CrossOrigin
 public class OrderController {
 
     private final OrderService orderService;
     private final UserInformationService userDetailsService;
+
+
 
     @PostMapping("adddetails")
     public ResponseEntity<UserInformationDto> sendDetails(@RequestBody UserInformationDto userInformationDto){
@@ -29,11 +33,12 @@ public class OrderController {
     @PostMapping("check")
     public ResponseEntity<OrderDto> checkOrder(@RequestBody OrderDto orderDto){
         OrderDto toReturn=orderService.checkOrder(orderDto);
+
         return new ResponseEntity<OrderDto>(toReturn, HttpStatus.CREATED);
     }
-    @PostMapping("addorderuser")
-    public ResponseEntity<OrderDto> addRegisterUserOrder(@RequestBody OrderDto orderDto,String username){
-        OrderDto toReturn=orderService.addUserOrder(orderDto,username);
+    @PostMapping("addorderwithinfo")
+    public ResponseEntity<OrderDto> addRegisterUserOrder(@RequestBody UnregisteredUserOrder orderDto){
+        OrderDto toReturn=orderService.addOrderFromUnregisteredUser(orderDto);
         return new ResponseEntity<OrderDto>(toReturn, HttpStatus.CREATED);
     }
 

@@ -4,7 +4,6 @@ package pl.meating.meatingback.order;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pl.meating.meatingback.product.Product;
 import pl.meating.meatingback.user.userdetails.UserInformation;
 
 import javax.persistence.*;
@@ -21,8 +20,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date date;
-    @ManyToMany
-    private List<Product> productList;
+//    @ManyToMany
+//    private List<Product> productList;
 //    @ManyToOne
 //    @JsonIgnore
 //    @JoinColumn(name="user_login")
@@ -31,12 +30,15 @@ public class Order {
 //    String userLogin(){
 //        return user.getUsername();
 //    }
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<OrderedProduct> productList;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private UserInformation userInformation;
 
 
-    public void addProduct(Product product){
-        this.productList.add(product);
-    }
+
+
+
+
 }

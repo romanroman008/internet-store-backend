@@ -1,7 +1,8 @@
 package pl.meating.meatingback.product;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.meating.meatingback.order.Order;
+import pl.meating.meatingback.order.OrderedProduct;
 
 @Service
 public class ProductMapper {
@@ -25,4 +26,11 @@ public class ProductMapper {
         product.setAmount(dto.getAmount());
         return product;
 }
+    public static OrderedProduct mapDtoToOrderedProduct(ProductDto dto) {
+        OrderedProduct orderedProduct = new OrderedProduct();
+        orderedProduct.setName(dto.getName());
+        orderedProduct.setAmount(dto.getAmount());
+
+        return orderedProduct;
+    }
 }

@@ -66,17 +66,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public UserDao getOne(){
-        if(userRepository.findByUsername("JarekSzparek").isPresent())
-            return userRepository.findByUsername("JarekSzparek").get();
-        return null;
-    }
 
-    public UserDao getUser(String name){
-        if(userRepository.findByUsername(name).isPresent())
-            return userRepository.findByUsername(name).get();
-        return null;
-    }
 
 //    private boolean isCurrentUserAdmin(){
 //        return SecurityContextHolder.getContext()

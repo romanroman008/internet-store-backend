@@ -1,6 +1,7 @@
 package pl.meating.meatingback.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,6 +14,7 @@ import pl.meating.meatingback.jwt.JwtUserDetailsService;
 import pl.meating.meatingback.user.dto.JwtRequest;
 import pl.meating.meatingback.user.dto.JwtResponse;
 import pl.meating.meatingback.user.dto.RegisterRequest;
+import pl.meating.meatingback.user.userdetails.UserInformationDto;
 
 @RestController
 @CrossOrigin
@@ -36,14 +38,21 @@ public class JwtAuthenticationController {
                 .loadUserByUsername(authenticationRequest.getUsername());
 
         final String token = jwtTokenUtil.generateToken(userDetails);
-
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<?> saveUser(@RequestBody RegisterRequest registerRequest) throws Exception {
-        return ResponseEntity.ok(userDetailsService.save(registerRequest));
+    public ResponseEntity<?> saveUser(@RequestBody RegisterRequest registerRequest){
+        try {
+            return ResponseEntity.ok(userDetailsService.save(registerRequest));
+        }catch(IllegalArgumentException e){
+            return new ResponseEntity(HttpStatus.valueOf(406));
+        }
+
+
     }
+
+
 
     private void authenticate(String username, String password) throws Exception {
         try {
