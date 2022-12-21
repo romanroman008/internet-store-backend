@@ -77,8 +77,8 @@ public class OrderMapper {
         userInformation.setLastName(dto.getLastName());
         userInformation.setBirthday(dto.getBirthday());
         userInformation.setStreet(dto.getStreet());
-        //userInformation.setStreetNumber((int) dto.getStreetNumber());
-       // userInformation.setFlatNumber((int) dto.getFlatNumber());
+        userInformation.setStreetNumber((int) dto.getStreetNumber());
+        userInformation.setFlatNumber((int) dto.getFlatNumber());
         userInformation.setCity(dto.getCity());
         userInformation.setCountry(dto.getCountry());
         userInformation.setPhone(dto.getPhone());
