@@ -12,6 +12,7 @@ import pl.meating.meatingback.user.userdetails.UserInformationDto;
 import pl.meating.meatingback.user.userdetails.UserInformationService;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("order")
@@ -21,6 +22,7 @@ public class OrderController {
 
     private final OrderService orderService;
     private final UserInformationService userDetailsService;
+
 
 
 
@@ -43,10 +45,14 @@ public class OrderController {
     }
 
     @PostMapping("addorder")
-    public ResponseEntity<OrderDto> addOrder(@RequestBody OrderDto orderDto){
+    public ResponseEntity<?> addOrder(@RequestHeader("Authorization") String token,@RequestBody OrderDto orderDto){
+        try{
+            OrderDto toReturn=orderService.addOrder(orderDto,token);
+            return new ResponseEntity<OrderDto>(toReturn, HttpStatus.CREATED);
+        }catch(NoSuchElementException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
-        OrderDto toReturn=orderService.addOrder(orderDto);
-        return new ResponseEntity<OrderDto>(toReturn, HttpStatus.CREATED);
     }
 
     @GetMapping

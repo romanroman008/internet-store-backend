@@ -10,5 +10,5 @@ import java.util.Optional;
 @Repository
 public interface UserInformationRepository extends JpaRepository<UserInformation,Long> {
     Optional<UserInformation> getByEmail(String email);
-    UserInformation getByFirstName(String firstName);
+    Optional<UserInformation> getByFirstName(String firstName);
 }
